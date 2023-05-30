@@ -1,7 +1,7 @@
 launch4j {
     mainClassName = "${project_main_class}"
     icon = "${projectDir}/dist/assets/icon.ico"
-    libraryDir = "libs"
+    libraryDir = "../libraries"
     outfile = "${build_runnable_file}.exe"
     jarTask = project.tasks.shadowJar
     copyright = "${build_copyright}"
