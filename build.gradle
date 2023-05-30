@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.25.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
+group 'be.raft.launcher'
+version '1.0.0'
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainModule = 'be.raft.launcher'
+    mainClass = 'be.raft.launcher.CraftedLauncher'
+}
+
+javafx {
+    version = '20'
+    modules = ['javafx.controls', 'javafx.web', 'javafx.swing']
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Logging
+    implementation "ch.qos.logback:logback-classic:1.4.7"
+    implementation "org.slf4j:slf4j-api:2.0.7"
+
+    //Utilities
+    implementation "com.google.guava:guava-base:r03"
+    implementation "org.jetbrains:annotations:24.0.0"
+    implementation "com.google.code.gson:gson:2.10.1"
+}
+
+
+jlink {
+    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'app'
+    }
+}
+
+jlinkZip {
+    group = 'distribution'
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+        attributes 'Description': 'Open-source free to use UNOFFICIAL Modded Minecraft Launcher, supports Offline accounts and Microsoft accounts'
+    }
+    archiveClassifier.set('app')
+    mergeServiceFiles()
+}
+
+//Only build shadowJar
+build.dependsOn(shadowJar)
+jar.enabled = false
+
+tasks.register('runLauncher', JavaExec) {
+    dependsOn build
+    doFirst {
+        File runDir = new File("./run")
+        if (!runDir.exists()) {
+            runDir.mkdirs()
+        }
+        workingDir = runDir
+    }
+    mainClass.set(application.mainClass)
+    classpath = files(shadowJar.archiveFile)
+    args '-launcher:dev' // program arguments go here
+}

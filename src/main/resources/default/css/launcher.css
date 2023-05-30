@@ -1,0 +1,7 @@
+#test-main-panel {
+    -fx-background-color: lime;
+}
+
+#test-side-panel {
+    -fx-background-color: red;
+}
