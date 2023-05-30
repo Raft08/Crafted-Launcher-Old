@@ -1,0 +1,8 @@
+tasks.register('distributeAll') {
+    group 'dist'
+
+    dependsOn(build)
+    dependsOn(distributeWindows)
+}
+
+apply from: 'dist/windows.gradle'
