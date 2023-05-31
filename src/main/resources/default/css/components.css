@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Avenir Medium';
+    src: url("../font/Avenir-Medium.ttf");
+}
+
+.grid-pane {
+    background-color: transparent;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: "Avenir Medium";
+}
+
+.clickable-label {
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.clickable-label:hover {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
+}

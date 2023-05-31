@@ -2,12 +2,14 @@ package be.raft.launcher.ui.panel;
 
 import org.jetbrains.annotations.NotNull;
 
-public class TestSidePanel extends Panel{
+public class EmptyPanel extends Panel{
     @Override
-    public void init() {}
+    public void init() {
+        //Is Empty
+    }
 
     @Override
     public @NotNull String toString() {
-        return "test-side-panel";
+        return "empty-panel";
     }
 }

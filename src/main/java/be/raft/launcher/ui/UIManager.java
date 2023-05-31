@@ -2,15 +2,13 @@ package be.raft.launcher.ui;
 
 import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.resources.theme.Theme;
+import be.raft.launcher.ui.panel.EmptyPanel;
 import be.raft.launcher.ui.panel.Panel;
-import be.raft.launcher.ui.panel.TestMainPanel;
-import be.raft.launcher.ui.panel.TestPopupPanel;
-import be.raft.launcher.ui.panel.TestSidePanel;
+import be.raft.launcher.ui.panel.WelcomePanel;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class UIManager extends Application {
@@ -38,8 +36,17 @@ public class UIManager extends Application {
         this.initWindow();
         this.stage.show();
 
-        this.setMainPane(new TestMainPanel());
-        this.setSideBar(new TestSidePanel());
+        if (!this.launcher.getSettingsManager().getSettings().has("firstLaunch")) {
+            this.launcher.getSettingsManager().getSettings().addProperty("firstLaunch", true);
+            this.launcher.getSettingsManager().save();
+        }
+
+        if (this.launcher.getSettingsManager().getSettings().get("firstLaunch").getAsBoolean()) {
+            this.setMainPane(new WelcomePanel());
+            this.setSideBar(new EmptyPanel());
+        } else {
+            //TODO: Create login page
+        }
     }
 
     public void initWindow() {
@@ -58,6 +65,9 @@ public class UIManager extends Application {
         //Setup UI Main layout
         Placing.setCanTakeAllSize(this.layout);
         this.layout.setId("launcher-layout");
+        this.layout.setBackground(new Background(new BackgroundImage(this.launcher.getTheme().getBackground(),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(1.0, 1.0, true, true, false, true))));
 
         this.layout.getStylesheets().add(this.launcher.getTheme().getStyleSheet());
 

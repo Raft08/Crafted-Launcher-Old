@@ -97,8 +97,6 @@ public class CraftedLauncher {
 
         CraftedLauncher.logger.info("Language '{}' loaded!", Text.getActiveLocale());
 
-        CraftedLauncher.logger.info(Text.translated("test.text", "test", "boilerplate"));
-
         Application.launch(UIManager.class);
     }
 
@@ -116,5 +114,9 @@ public class CraftedLauncher {
 
     public void setUiManager(UIManager uiManager) {
         this.uiManager = uiManager;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 }

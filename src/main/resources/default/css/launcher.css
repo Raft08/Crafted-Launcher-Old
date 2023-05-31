@@ -1,7 +1,8 @@
-#test-main-panel {
-    -fx-background-color: lime;
-}
+@import "components.css";
+@import "welcome.css";
 
-#test-side-panel {
-    -fx-background-color: red;
+#empty-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
+    -fx-effect-insets: 0 0 0 10;
 }

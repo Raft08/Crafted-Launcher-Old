@@ -1,0 +1,23 @@
+#welcome-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
+    -fx-effect-insets: 0 0 0 10;
+}
+
+#welcome-title {
+    -fx-text-alignment: center;
+    -fx-font-size: 48px;
+    -fx-translate-y: -130;
+}
+
+#welcome-message {
+    -fx-text-alignment: center;
+    -fx-font-size: 20px;
+    -fx-padding: 50px;
+}
+
+#welcome-continue {
+    -fx-text-alignment: center;
+    -fx-font-size: 40px;
+    -fx-translate-y: 130;
+}
