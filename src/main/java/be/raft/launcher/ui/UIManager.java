@@ -81,7 +81,6 @@ public class UIManager extends Application {
         this.mainPane.getChildren().add(panel.getLayout());
 
         panel.getLayout().setId(panel.toString());
-        System.out.println(panel.getLayout().getId());
         panel.init();
         panel.onShow();
     }
