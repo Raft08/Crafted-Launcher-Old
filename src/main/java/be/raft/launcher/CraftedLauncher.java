@@ -98,6 +98,8 @@ public class CraftedLauncher {
         CraftedLauncher.logger.info("Language '{}' loaded!", Text.getActiveLocale());
 
         CraftedLauncher.logger.info(Text.translated("test.text", "test", "boilerplate"));
+
+        Application.launch(UIManager.class);
     }
 
     public Theme getTheme() {
