@@ -98,9 +98,6 @@ public class CraftedLauncher {
         CraftedLauncher.logger.info("Language '{}' loaded!", Text.getActiveLocale());
 
         CraftedLauncher.logger.info(Text.translated("test.text", "test", "boilerplate"));
-
-        //Run the JavaFX on another thread
-        CompletableFuture.runAsync(() -> Application.launch(UIManager.class));
     }
 
     public Theme getTheme() {
