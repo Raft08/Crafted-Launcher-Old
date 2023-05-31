@@ -71,13 +71,13 @@ public class CraftedLauncher {
             themeLoadingFuture.join();
         }
 
-        if (this.settingsManager.getSettings().has("theme")) {
-            String themeId = this.settingsManager.getSettings().get("theme").getAsString();
+        if (this.settingsManager.has("theme")) {
+            String themeId = this.settingsManager.getString("theme");
             Optional<Theme> possibleTheme = this.loadedThemes.stream().filter(loadedTheme -> loadedTheme.getId().equals(themeId)).findFirst();
 
             if (possibleTheme.isEmpty()) {
                 CraftedLauncher.logger.warn("Unable to find theme '{}' setting default theme.", themeId);
-                this.settingsManager.getSettings().addProperty("theme", "default");
+                this.settingsManager.setString("theme", "default");
                 this.settingsManager.save();
                 this.theme = DefaultTheme.theme;
                 return;
@@ -85,7 +85,7 @@ public class CraftedLauncher {
 
             this.theme = possibleTheme.get();
         } else {
-            this.settingsManager.getSettings().addProperty("theme", "default");
+            this.settingsManager.setString("theme", "default");
             this.settingsManager.save();
             this.theme = DefaultTheme.theme;
         }

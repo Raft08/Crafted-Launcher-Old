@@ -50,8 +50,8 @@ public class Text {
 
     public static CompletableFuture<Void> loadLocales(SettingsManager settings, Theme theme) {
         return CompletableFuture.runAsync(() -> {
-            if (settings.getSettings().has("language")) {
-                String[] language = settings.getSettings().get("language").getAsString().split("_");
+            if (settings.has("language")) {
+                String[] language = settings.getString("language").split("_");
 
                 Locale locale = new Locale(language[0], language[1]);
                 if (theme.isLocaleAvailable(locale)) {
@@ -64,7 +64,7 @@ public class Text {
                 Locale systemLocale = Locale.getDefault();
                 if (theme.isLocaleAvailable(systemLocale)) {
                     Text.setLocale(theme.getLocaleJson(systemLocale), systemLocale);
-                    settings.getSettings().addProperty("language", systemLocale.toString().toLowerCase());
+                    settings.setString("language", systemLocale.toString().toLowerCase());
                     settings.save();
                     return;
                 }
@@ -73,13 +73,13 @@ public class Text {
 
                 Locale enUSLocale = new Locale("en", "us");
                 Text.setLocale(theme.getLocaleJson(enUSLocale), enUSLocale);
-                settings.getSettings().addProperty("language", enUSLocale.toString().toLowerCase());
+                settings.setString("language", enUSLocale.toString().toLowerCase());
                 settings.save();
             } else {
                 Locale locale = Locale.getDefault();
                 if (theme.isLocaleAvailable(locale)) {
                     Text.setLocale(theme.getLocaleJson(locale), locale);
-                    settings.getSettings().addProperty("language", locale.toString().toLowerCase());
+                    settings.setString("language", locale.toString().toLowerCase());
                     settings.save();
                     return;
                 }
@@ -88,7 +88,7 @@ public class Text {
 
                 Locale enUSLocale = new Locale("en", "us");
                 Text.setLocale(theme.getLocaleJson(enUSLocale), enUSLocale);
-                settings.getSettings().addProperty("language", enUSLocale.toString().toLowerCase());
+                settings.setString("language", enUSLocale.toString().toLowerCase());
                 settings.save();
             }
         });
