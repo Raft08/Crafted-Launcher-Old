@@ -86,7 +86,8 @@ public class CraftedLauncher {
             this.theme = DefaultTheme.theme;
         }
 
-        Application.launch(UIManager.class);
+        //Run the JavaFX on another thread
+        CompletableFuture.runAsync(() -> Application.launch(UIManager.class));
     }
 
     public Theme getTheme() {
