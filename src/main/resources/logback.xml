@@ -6,8 +6,20 @@
         </encoder>
     </appender>
 
+    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/latest.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyy-MM-dd}_%d{HH-mm-ss,aux}.log.gz</fileNamePattern>
+            <TimeBasedFileNamingAndTriggeringPolicy class="be.raft.launcher.logging.StartupTimeBasedTriggeringPolicy" />
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss}] [%t/%level]: %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <root level="debug">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="File" />
     </root>
 </configuration>
 
