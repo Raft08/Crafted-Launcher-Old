@@ -1,10 +1,15 @@
 package be.raft.launcher.resources.theme;
 
+import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.file.GameFileManager;
+import be.raft.launcher.file.loader.JsonFileLoader;
+import com.google.common.io.Files;
+import com.google.gson.JsonObject;
 import javafx.scene.image.Image;
 
 import java.io.File;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Theme {
     public static final String DEFAULT_CSS = "launcher.css";
@@ -15,6 +20,8 @@ public class Theme {
     private final String version;
     private final String[] authors;
     private final String credit;
+
+    private List<Locale> availableLocales;
 
     public Theme(String name, String id, String description, String version, String[] authors, String credit) {
         this.name = name;
@@ -68,11 +75,66 @@ public class Theme {
     }
 
     public Image getBackground() {
-        File[] backgrounds = new File(GameFileManager.getThemeDirectory(), this.id + "/images/background").listFiles();
+        File[] backgrounds = new File(GameFileManager.getThemeDirectory(), this.id + "/images/background").listFiles(file ->
+                file.isFile() && (file.getName().endsWith(".jpg") || file.getName().endsWith(".png")));
+
         if (backgrounds == null) {
             return DefaultTheme.theme.getBackground();
         }
 
         return new Image(backgrounds[new Random().nextInt(backgrounds.length)].getAbsolutePath());
+    }
+
+    public List<Locale> getAvailableLocales() {
+        if (this.availableLocales == null) {
+            Set<Locale> uniqueLocales = new HashSet<>();
+
+            uniqueLocales.addAll(DefaultTheme.theme.getAvailableLocales());
+
+            File[] langFiles = new File(GameFileManager.getThemeDirectory(), this.id + "/lang/")
+                    .listFiles(file -> file.isFile() && file.getName().endsWith(".json"));
+
+            if (langFiles != null) {
+                for (File langFile : langFiles) {
+                    String[] splitLangFile = Files.getNameWithoutExtension(langFile.getName()).split("_");
+
+                    if (splitLangFile.length != 2) {
+                        CraftedLauncher.logger.error("Unable to load language file '{}'!", langFile);
+                        continue;
+                    }
+
+                    uniqueLocales.add(new Locale(splitLangFile[0], splitLangFile[1]));
+                }
+            }
+
+            this.availableLocales = new ArrayList<>(uniqueLocales);
+        }
+
+        return this.availableLocales;
+    }
+
+    public boolean isLocaleAvailable(Locale locale) {
+        if (this.availableLocales == null) {
+            this.availableLocales = getAvailableLocales();
+        }
+
+        return this.availableLocales.stream().anyMatch(availableLocale -> availableLocale.equals(locale));
+    }
+
+    public JsonObject getLocaleJson(Locale locale) {
+        if (!isLocaleAvailable(locale)) {
+            CraftedLauncher.logger.error("Cannot load locale '{}'!", locale);
+            return null;
+        }
+
+        File langFile = new File(GameFileManager.getThemeDirectory(),
+                this.id + "/lang/" + locale.getLanguage().toLowerCase() + "_" + locale.getCountry().toLowerCase() + ".json");
+
+        if(!langFile.isFile()) {
+            return DefaultTheme.theme.getLocaleJson(locale);
+        }
+
+        JsonFileLoader loader = new JsonFileLoader(langFile);
+        return loader.load().getAsJsonObject();
     }
 }

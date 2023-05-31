@@ -2,6 +2,7 @@ package be.raft.launcher;
 
 import be.raft.launcher.file.GameFileManager;
 import be.raft.launcher.file.SettingsManager;
+import be.raft.launcher.resources.Text;
 import be.raft.launcher.resources.theme.DefaultTheme;
 import be.raft.launcher.resources.theme.Theme;
 import be.raft.launcher.resources.theme.ThemeManager;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -57,11 +59,11 @@ public class CraftedLauncher {
         });
 
         //Load Settings
-        settingsManager = new SettingsManager();
-        if (!settingsManager.settingsFileExists()) {
-            settingsManager.createSettings();
+        this.settingsManager = new SettingsManager();
+        if (!this.settingsManager.settingsFileExists()) {
+            this.settingsManager.createSettings();
         }
-        settingsManager.load();
+        this.settingsManager.load();
 
         //Block main thread until themes are loaded
         if (!themeLoadingFuture.isDone()) {
@@ -69,22 +71,33 @@ public class CraftedLauncher {
             themeLoadingFuture.join();
         }
 
-        if(settingsManager.getSettings().has("theme")) {
-            String themeId = settingsManager.getSettings().get("theme").getAsString();
+        if (this.settingsManager.getSettings().has("theme")) {
+            String themeId = this.settingsManager.getSettings().get("theme").getAsString();
             Optional<Theme> possibleTheme = this.loadedThemes.stream().filter(loadedTheme -> loadedTheme.getId().equals(themeId)).findFirst();
 
             if (possibleTheme.isEmpty()) {
                 CraftedLauncher.logger.warn("Unable to find theme '{}' setting default theme.", themeId);
-                settingsManager.getSettings().addProperty("theme", "default");
+                this.settingsManager.getSettings().addProperty("theme", "default");
+                this.settingsManager.save();
                 this.theme = DefaultTheme.theme;
                 return;
             }
 
             this.theme = possibleTheme.get();
         } else {
-            settingsManager.getSettings().addProperty("theme", "default");
+            this.settingsManager.getSettings().addProperty("theme", "default");
+            this.settingsManager.save();
             this.theme = DefaultTheme.theme;
         }
+
+        CraftedLauncher.logger.info("Theme '{}' loaded!", this.theme.getName());
+
+        //Load the language
+        Text.loadLocales(this.settingsManager, this.theme).join();
+
+        CraftedLauncher.logger.info("Language '{}' loaded!", Text.getActiveLocale());
+
+        CraftedLauncher.logger.info(Text.translated("test.text", "test", "boilerplate"));
 
         //Run the JavaFX on another thread
         CompletableFuture.runAsync(() -> Application.launch(UIManager.class));

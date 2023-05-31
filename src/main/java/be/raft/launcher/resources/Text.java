@@ -1,8 +1,12 @@
 package be.raft.launcher.resources;
 
+import be.raft.launcher.CraftedLauncher;
+import be.raft.launcher.file.SettingsManager;
+import be.raft.launcher.resources.theme.Theme;
 import com.google.gson.JsonObject;
 
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +46,52 @@ public class Text {
     public static void setLocale(JsonObject localeJson, Locale locale) {
         parsedLocale = localeJson;
         activeLocale = locale;
+    }
+
+    public static CompletableFuture<Void> loadLocales(SettingsManager settings, Theme theme) {
+        return CompletableFuture.runAsync(() -> {
+            if (settings.getSettings().has("language")) {
+                String[] language = settings.getSettings().get("language").getAsString().split("_");
+
+                Locale locale = new Locale(language[0], language[1]);
+                if (theme.isLocaleAvailable(locale)) {
+                    Text.setLocale(theme.getLocaleJson(locale), locale);
+                    return;
+                }
+
+                CraftedLauncher.logger.warn("Unable to load language '{}' trying to load system language..", locale);
+
+                Locale systemLocale = Locale.getDefault();
+                if (theme.isLocaleAvailable(systemLocale)) {
+                    Text.setLocale(theme.getLocaleJson(systemLocale), systemLocale);
+                    settings.getSettings().addProperty("language", systemLocale.toString().toLowerCase());
+                    settings.save();
+                    return;
+                }
+
+                CraftedLauncher.logger.warn("Unable to load system language '{}' loading en_us..", systemLocale);
+
+                Locale enUSLocale = new Locale("en", "us");
+                Text.setLocale(theme.getLocaleJson(enUSLocale), enUSLocale);
+                settings.getSettings().addProperty("language", enUSLocale.toString().toLowerCase());
+                settings.save();
+            } else {
+                Locale locale = Locale.getDefault();
+                if (theme.isLocaleAvailable(locale)) {
+                    Text.setLocale(theme.getLocaleJson(locale), locale);
+                    settings.getSettings().addProperty("language", locale.toString().toLowerCase());
+                    settings.save();
+                    return;
+                }
+
+                CraftedLauncher.logger.warn("Unable to load system language '{}' loading en_us..", locale);
+
+                Locale enUSLocale = new Locale("en", "us");
+                Text.setLocale(theme.getLocaleJson(enUSLocale), enUSLocale);
+                settings.getSettings().addProperty("language", enUSLocale.toString().toLowerCase());
+                settings.save();
+            }
+        });
     }
 }
 
