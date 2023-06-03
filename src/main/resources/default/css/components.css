@@ -11,6 +11,7 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-family: "Avenir Medium";
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 2, 0, 0, 0);
 }
 
 .clickable-label {
@@ -19,4 +20,29 @@
 
 .clickable-label:hover {
     -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
+}
+
+.toggle-button {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: "Avenir Medium";
+    -fx-background-color: transparent;
+}
+
+.toggle-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-cursor: hand;
+}
+
+.toggle-button:selected {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
+}
+
+.side-menu-element {
+    -fx-alignment: baseline-left;
+    -fx-font-size: 35px;
+    -fx-graphic-text-gap: 12px;
+    -fx-max-height: 30;
+    /* Make it absurdly big to make sure the whole side menu width will be taken */
+    -fx-max-width: 1000;
 }

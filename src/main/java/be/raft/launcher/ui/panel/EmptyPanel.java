@@ -3,6 +3,12 @@ package be.raft.launcher.ui.panel;
 import org.jetbrains.annotations.NotNull;
 
 public class EmptyPanel extends Panel{
+    private final String cssId;
+
+    public EmptyPanel(String cssId) {
+        this.cssId = cssId;
+    }
+
     @Override
     public void init() {
         //Is Empty
@@ -10,6 +16,6 @@ public class EmptyPanel extends Panel{
 
     @Override
     public @NotNull String toString() {
-        return "empty-panel";
+        return cssId;
     }
 }

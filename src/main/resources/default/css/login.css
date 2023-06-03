@@ -1,0 +1,26 @@
+#login-side-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
+    -fx-effect-insets: 0 0 0 10;
+}
+
+#login-empty-panel {
+
+}
+
+#login-title {
+    -fx-text-alignment: center;
+    -fx-font-size: 54px;
+}
+
+#login-microsoft-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
+    -fx-effect-insets: 0 0 0 10;
+}
+
+#login-offline-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
+    -fx-effect-insets: 0 0 0 10;
+}

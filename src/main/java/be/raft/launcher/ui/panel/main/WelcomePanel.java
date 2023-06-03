@@ -1,11 +1,15 @@
-package be.raft.launcher.ui.panel;
+package be.raft.launcher.ui.panel.main;
 
+import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
+import be.raft.launcher.ui.panel.EmptyPanel;
+import be.raft.launcher.ui.panel.Panel;
+import be.raft.launcher.ui.panel.side.LoginSidePanel;
 import javafx.scene.control.Label;
 import org.jetbrains.annotations.NotNull;
 
-public class WelcomePanel extends Panel{
+public class WelcomePanel extends Panel {
     @Override
     public void init() {
         Label welcomeTitle = new Label(Text.translated("label.welcome.title"));
@@ -32,6 +36,17 @@ public class WelcomePanel extends Panel{
         Placing.setCenterH(acknowledgeButton);
 
         this.layout.getChildren().addAll(welcomeTitle, welcomeMessage, acknowledgeButton);
+
+        //Events
+        acknowledgeButton.setOnMouseClicked(event -> {
+            if (!CraftedLauncher.devEnv) {
+                this.uiManager.getLauncher().getSettingsManager().setBoolean("firstLaunch", false);
+                this.uiManager.getLauncher().getSettingsManager().save();
+            }
+
+            this.uiManager.setSideBar(new LoginSidePanel());
+            this.uiManager.setMainPane(new EmptyPanel("login-empty-panel"));
+        });
     }
 
     @Override

@@ -29,6 +29,7 @@ public class CraftedLauncher {
         try {
             Class.forName("javafx.application.Application");
             CraftedLauncher.logger.info("JavaFX validation successful!");
+            System.setProperty("prism.lcdtext", "false"); //Enhance smoothness of the text
             new CraftedLauncher();
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Error:\n" + e.getMessage() + "\nnot found!" +

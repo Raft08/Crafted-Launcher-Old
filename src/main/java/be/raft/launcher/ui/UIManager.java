@@ -4,7 +4,7 @@ import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.resources.theme.Theme;
 import be.raft.launcher.ui.panel.EmptyPanel;
 import be.raft.launcher.ui.panel.Panel;
-import be.raft.launcher.ui.panel.WelcomePanel;
+import be.raft.launcher.ui.panel.main.WelcomePanel;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
@@ -43,7 +43,7 @@ public class UIManager extends Application {
 
         if (this.launcher.getSettingsManager().getSettings().get("firstLaunch").getAsBoolean()) {
             this.setMainPane(new WelcomePanel());
-            this.setSideBar(new EmptyPanel());
+            this.setSideBar(new EmptyPanel("welcome-side-panel"));
         } else {
             //TODO: Create login page
         }
@@ -73,7 +73,6 @@ public class UIManager extends Application {
 
         //Column Constraints for the sidebar
         ColumnConstraints sidebarConstraints = new ColumnConstraints();
-        sidebarConstraints.setHalignment(HPos.LEFT);
         sidebarConstraints.setMinWidth(350);
         sidebarConstraints.setMaxWidth(350);
 
