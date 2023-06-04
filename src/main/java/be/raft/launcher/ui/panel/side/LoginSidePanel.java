@@ -6,6 +6,7 @@ import be.raft.launcher.game.login.OfflineLoginOption;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
 import be.raft.launcher.ui.panel.Panel;
+import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -44,6 +45,10 @@ public class LoginSidePanel extends Panel {
             ToggleButton option = new ToggleButton(Text.translated(loginOption.getTranslationKey()));
             option.getStyleClass().add("side-menu-element");
             option.setToggleGroup(sideMenuToggle);
+
+            option.setDisable(true);
+
+            loginOption.isAvailable().thenAccept(available -> Platform.runLater(() -> option.setDisable(!available)));
 
             Placing.setCanTakeAllSize(option);
 

@@ -3,6 +3,8 @@ package be.raft.launcher.game.login;
 import be.raft.launcher.ui.panel.Panel;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.CompletableFuture;
+
 public class OfflineLoginOption extends Panel implements LoginOption {
     @Override
     public @NotNull String getTranslationKey() {
@@ -15,8 +17,8 @@ public class OfflineLoginOption extends Panel implements LoginOption {
     }
 
     @Override
-    public boolean isAvailable() {
-        return true;
+    public CompletableFuture<Boolean> isAvailable() {
+        return CompletableFuture.completedFuture(true);
     }
 
     @Override
