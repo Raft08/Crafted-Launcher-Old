@@ -1,8 +1,7 @@
 package be.raft.launcher.ui.panel.side;
 
+import be.raft.launcher.game.account.AccountManager;
 import be.raft.launcher.game.login.LoginOption;
-import be.raft.launcher.game.login.MicrosoftLoginOption;
-import be.raft.launcher.game.login.OfflineLoginOption;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
 import be.raft.launcher.ui.panel.Panel;
@@ -13,9 +12,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class LoginSidePanel extends Panel {
     @Override
@@ -41,7 +37,7 @@ public class LoginSidePanel extends Panel {
 
         ToggleGroup sideMenuToggle = new ToggleGroup();
 
-        for (LoginOption loginOption : loginOptions) {
+        for (LoginOption loginOption : AccountManager.LOGIN_OPTIONS) {
             ToggleButton option = new ToggleButton(Text.translated(loginOption.getTranslationKey()));
             option.getStyleClass().add("side-menu-element");
             option.setToggleGroup(sideMenuToggle);
@@ -88,8 +84,6 @@ public class LoginSidePanel extends Panel {
         this.layout.add(titleBox, 0, 0);
         this.layout.add(sideMenu, 0, 1);
     }
-
-    private final List<LoginOption> loginOptions = Arrays.asList(new MicrosoftLoginOption(), new OfflineLoginOption());
 
     @Override
     public @NotNull String toString() {

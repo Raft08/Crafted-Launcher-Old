@@ -1,11 +1,15 @@
 package be.raft.launcher.game.login;
 
+import be.raft.launcher.game.account.Account;
 import be.raft.launcher.ui.panel.Panel;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
 public class OfflineLoginOption extends Panel implements LoginOption {
+    public static final String IDENTIFIER = "microsoft";
+
     @Override
     public @NotNull String getTranslationKey() {
         return "login_option.offline";
@@ -13,11 +17,16 @@ public class OfflineLoginOption extends Panel implements LoginOption {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "offline";
+        return IDENTIFIER;
     }
 
     @Override
-    public CompletableFuture<Boolean> isAvailable() {
+    public @NotNull Account parseAccount(JsonObject json) {
+        return null; //Not Implemented
+    }
+
+    @Override
+    public @NotNull CompletableFuture<Boolean> isAvailable() {
         return CompletableFuture.completedFuture(true);
     }
 

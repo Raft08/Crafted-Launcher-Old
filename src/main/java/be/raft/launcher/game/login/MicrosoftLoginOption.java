@@ -1,21 +1,29 @@
 package be.raft.launcher.game.login;
 
 import be.raft.launcher.CraftedLauncher;
+import be.raft.launcher.file.GameFileManager;
+import be.raft.launcher.file.loader.JsonFileLoader;
 import be.raft.launcher.game.account.Account;
+import be.raft.launcher.game.account.AccountManager;
 import be.raft.launcher.game.account.MicrosoftAccount;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
 import be.raft.launcher.ui.panel.Panel;
 import be.raft.launcher.web.WebUtils;
+import com.google.gson.JsonObject;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class MicrosoftLoginOption extends Panel implements LoginOption {
+    public static final String IDENTIFIER = "microsoft";
+
     private Label loginStatus;
     private Label retryBtn;
 
@@ -26,11 +34,20 @@ public class MicrosoftLoginOption extends Panel implements LoginOption {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "microsoft";
+        return IDENTIFIER;
     }
 
     @Override
-    public CompletableFuture<Boolean> isAvailable() {
+    public @NotNull Account parseAccount(JsonObject json) {
+        String username = json.get("username").getAsString();
+        UUID uniqueId = UUID.fromString(json.get("uuid").getAsString());
+        String refreshToken = json.get("refreshToken").getAsString();
+
+        return new MicrosoftAccount(username, uniqueId, refreshToken);
+    }
+
+    @Override
+    public @NotNull CompletableFuture<Boolean> isAvailable() {
         return WebUtils.ping(3000, "login.microsoftonline.com", "login.live.com", "user.auth.xboxlive.com",
                 "api.minecraftservices.com");
     }
@@ -96,7 +113,33 @@ public class MicrosoftLoginOption extends Panel implements LoginOption {
 
             CraftedLauncher.logger.info("Logged as {}({})", account.getUsername(), account.getUniqueId());
 
-            //TODO: Save the account somewhere
+            File accountDir = GameFileManager.getFileInGameDirectory(AccountManager.ACCOUNTS_DIR);
+
+            if (!accountDir.isDirectory()) {
+                accountDir.mkdirs();
+            }
+
+            //Saving the account
+            JsonFileLoader accountFileLoader = new JsonFileLoader(new File(accountDir,
+                    account.getUniqueId().toString() + ".json"));
+
+
+
+            if (accountFileLoader.fileExists()) {
+                CraftedLauncher.logger.warn("Account '{}' already exists, deleting old account file..", account.getUsername());
+                accountFileLoader.getFile().delete();
+            }
+
+            accountFileLoader.createFile();
+            accountFileLoader.save(account.toJson());
+
+            Platform.runLater(() -> {
+
+                CraftedLauncher launcher = CraftedLauncher.instance;
+                launcher.setSelectedAccount(account);
+                launcher.getSettingsManager().setString("selectedAccount", account.getUniqueId().toString());
+                launcher.getSettingsManager().save();
+            });
         });
     }
 

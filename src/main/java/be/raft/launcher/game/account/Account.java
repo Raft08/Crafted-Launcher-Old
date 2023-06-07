@@ -1,5 +1,7 @@
 package be.raft.launcher.game.account;
 
+import com.google.gson.JsonObject;
+
 import java.util.UUID;
 
 public abstract class Account {
@@ -20,6 +22,10 @@ public abstract class Account {
     public UUID getUniqueId() {
         return uniqueId;
     }
+
+    @Override
+    public abstract String toString();
+    public abstract JsonObject toJson();
 
     record AuthInfo(String username, UUID uniqueId, String accessToken) {
     }
