@@ -52,9 +52,6 @@ public class CraftedLauncher {
 
         CraftedLauncher.logger.info("Initializing Crafted Launcher...");
 
-        //For performance purposes
-        AccountManager.loadClass();
-
         if (!GameFileManager.getGameDirectory().isDirectory()) {
             GameFileManager.getGameDirectory().mkdirs();
         }

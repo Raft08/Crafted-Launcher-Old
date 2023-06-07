@@ -60,6 +60,9 @@ public class MicrosoftLoginOption extends Panel implements LoginOption {
     //Panel
     @Override
     public void init() {
+        //Update the UI manager, side effect of preloading the accounts
+        this.uiManager = CraftedLauncher.instance.getUIManager();
+
         this.loginStatus = new Label(Text.translated("label.login.microsoft.status.waiting"));
         this.loginStatus.setId("login-microsoft-status");
 
@@ -133,13 +136,9 @@ public class MicrosoftLoginOption extends Panel implements LoginOption {
             accountFileLoader.createFile();
             accountFileLoader.save(account.toJson());
 
-            Platform.runLater(() -> {
-
-                CraftedLauncher launcher = CraftedLauncher.instance;
-                launcher.setSelectedAccount(account);
-                launcher.getSettingsManager().setString("selectedAccount", account.getUniqueId().toString());
-                launcher.getSettingsManager().save();
-            });
+            this.uiManager.getLauncher().setSelectedAccount(account);
+            this.uiManager.getLauncher().getSettingsManager().setString("selectedAccount", account.getUniqueId().toString());
+            this.uiManager.getLauncher().getSettingsManager().save();
         });
     }
 

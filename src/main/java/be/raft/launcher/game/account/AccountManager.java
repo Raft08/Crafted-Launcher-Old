@@ -57,7 +57,4 @@ public class AccountManager {
             return accounts;
         });
     }
-
-    //For performance purpose
-    public static void loadClass() {};
 }

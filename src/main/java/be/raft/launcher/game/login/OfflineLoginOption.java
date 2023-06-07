@@ -1,5 +1,6 @@
 package be.raft.launcher.game.login;
 
+import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.game.account.Account;
 import be.raft.launcher.ui.panel.Panel;
 import com.google.gson.JsonObject;
@@ -37,7 +38,8 @@ public class OfflineLoginOption extends Panel implements LoginOption {
 
     @Override
     public void init() {
-
+        //Update the UI manager, side effect of preloading the accounts
+        this.uiManager = CraftedLauncher.instance.getUIManager();
     }
 
     @Override

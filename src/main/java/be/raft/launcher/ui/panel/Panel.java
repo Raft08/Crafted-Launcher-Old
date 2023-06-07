@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class Panel {
     protected final GridPane layout;
-    protected final UIManager uiManager;
+    protected UIManager uiManager;
 
     public Panel() {
         this.layout = new GridPane();
