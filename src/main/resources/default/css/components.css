@@ -30,11 +30,12 @@
 }
 
 .toggle-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-color: rgba(255, 255, 255, 0.10);
     -fx-cursor: hand;
 }
 
 .toggle-button:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
     -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
 }
 

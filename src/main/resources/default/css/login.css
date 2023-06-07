@@ -19,6 +19,16 @@
     -fx-effect-insets: 0 0 0 10;
 }
 
+#login-microsoft-status {
+    -fx-font-size: 42px;
+    -fx-translate-y: -50;
+}
+
+#login-microsoft-retry {
+    -fx-font-size: 38px;
+    -fx-translate-y: 50;
+}
+
 #login-offline-panel {
     -fx-background-color: rgba(0, 0, 0, 0.3);
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);

@@ -5,6 +5,7 @@ import be.raft.launcher.resources.theme.Theme;
 import be.raft.launcher.ui.panel.EmptyPanel;
 import be.raft.launcher.ui.panel.Panel;
 import be.raft.launcher.ui.panel.main.WelcomePanel;
+import be.raft.launcher.ui.panel.side.LoginSidePanel;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
@@ -45,7 +46,8 @@ public class UIManager extends Application {
             this.setMainPane(new WelcomePanel());
             this.setSideBar(new EmptyPanel("welcome-side-panel"));
         } else {
-            //TODO: Create login page
+            this.setSideBar(new LoginSidePanel());
+            this.setMainPane(new EmptyPanel("login-empty-panel"));
         }
     }
 

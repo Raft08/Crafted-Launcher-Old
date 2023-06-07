@@ -22,6 +22,10 @@ javafx {
 
 repositories {
     mavenCentral()
+    maven {
+        name 'Litarvan Repo'
+        url 'https://litarvan.github.io/maven'
+    }
 }
 
 dependencies {
@@ -34,8 +38,11 @@ dependencies {
     implementation "org.jetbrains:annotations:24.0.0"
     implementation "com.google.code.gson:gson:2.10.1"
 
-    //web
+    //Web
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
+
+    //Auth
+    implementation 'fr.litarvan:openauth:1.1.6'
 }
 
 compileJava {
