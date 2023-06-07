@@ -7,7 +7,7 @@ import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 
 import java.util.UUID;
 
-public class MicrosoftAccount extends Account{
+public class MicrosoftAccount extends Account {
     private final String refreshToken;
     private String accessToken;
 

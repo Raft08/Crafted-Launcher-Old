@@ -21,5 +21,6 @@ public abstract class Account {
         return uniqueId;
     }
 
-    record AuthInfo(String username, UUID uniqueId, String accessToken) {}
+    record AuthInfo(String username, UUID uniqueId, String accessToken) {
+    }
 }

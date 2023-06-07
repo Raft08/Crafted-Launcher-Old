@@ -71,7 +71,7 @@ public class MicrosoftLoginOption extends Panel implements LoginOption {
 
         MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
 
-        authenticator.loginWithAsyncWebview().whenComplete((result, throwable) ->  {
+        authenticator.loginWithAsyncWebview().whenComplete((result, throwable) -> {
             if (result == null) {
                 Platform.runLater(() -> {
                     if (throwable != null) {

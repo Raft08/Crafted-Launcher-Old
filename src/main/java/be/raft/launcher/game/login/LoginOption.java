@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 public interface LoginOption {
     @NotNull
     String getTranslationKey();
+
     @NotNull
     String getIdentifier();
 

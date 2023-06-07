@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Theme {
     public static final String DEFAULT_CSS = "launcher.css";
@@ -57,7 +56,7 @@ public class Theme {
     }
 
     public String getStyleSheet() {
-        File cssFile = new File(GameFileManager.getThemeDirectory(),this.id + "/css/" + DEFAULT_CSS);
+        File cssFile = new File(GameFileManager.getThemeDirectory(), this.id + "/css/" + DEFAULT_CSS);
         if (!cssFile.isFile()) {
             return DefaultTheme.theme.getStyleSheet();
         }
@@ -130,7 +129,7 @@ public class Theme {
         File langFile = new File(GameFileManager.getThemeDirectory(),
                 this.id + "/lang/" + locale.getLanguage().toLowerCase() + "_" + locale.getCountry().toLowerCase() + ".json");
 
-        if(!langFile.isFile()) {
+        if (!langFile.isFile()) {
             return DefaultTheme.theme.getLocaleJson(locale);
         }
 

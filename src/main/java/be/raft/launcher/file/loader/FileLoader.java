@@ -11,7 +11,9 @@ public abstract class FileLoader<T> {
     }
 
     public abstract T load();
+
     public abstract void save(T value);
+
     public boolean fileExists() {
         return file.isFile();
     }

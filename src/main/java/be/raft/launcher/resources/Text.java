@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 public class Text {
     private static JsonObject parsedLocale;
     private static Locale activeLocale;
+
     public static String translated(String key, String... data) {
         if (parsedLocale == null || parsedLocale.get(key) == null) {
             return key;

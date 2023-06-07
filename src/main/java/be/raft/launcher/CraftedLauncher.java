@@ -14,12 +14,11 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CraftedLauncher {
-    private static final long startTime = System.currentTimeMillis();
+    public static final long startTime = System.currentTimeMillis();
     public static boolean devEnv;
     public static CraftedLauncher instance;
     public static final Logger logger = LoggerFactory.getLogger("Crafted-Launcher");
@@ -38,7 +37,7 @@ public class CraftedLauncher {
         }
     }
 
-    private final SettingsManager settingsManager;
+    private SettingsManager settingsManager;
     private UIManager uiManager;
     private Theme theme;
     private List<Theme> loadedThemes;
@@ -54,7 +53,7 @@ public class CraftedLauncher {
 
         //Load Themes
         long themeLoadingStartTime = System.currentTimeMillis();
-        CompletableFuture<Void> themeLoadingFuture = ThemeManager.loadThemes().thenAccept(themes ->  {
+        CompletableFuture<Void> themeLoadingFuture = ThemeManager.loadThemes().thenAccept(themes -> {
             loadedThemes = themes;
             CraftedLauncher.logger.info("Themes took {}ms to load!", (System.currentTimeMillis() - themeLoadingStartTime));
         });
@@ -72,6 +71,20 @@ public class CraftedLauncher {
             themeLoadingFuture.join();
         }
 
+        //Select the theme
+        this.selectTheme();
+
+        //Load the language
+        Text.loadLocales(this.settingsManager, this.theme).join();
+
+        CraftedLauncher.logger.info("Language '{}' loaded!", Text.getActiveLocale());
+
+        CraftedLauncher.logger.info("Launcher loaded in {}ms", (System.currentTimeMillis() - CraftedLauncher.startTime));
+
+        Application.launch(UIManager.class);
+    }
+
+    private void selectTheme() {
         if (this.settingsManager.has("theme")) {
             String themeId = this.settingsManager.getString("theme");
             Optional<Theme> possibleTheme = this.loadedThemes.stream().filter(loadedTheme -> loadedTheme.getId().equals(themeId)).findFirst();
@@ -92,13 +105,6 @@ public class CraftedLauncher {
         }
 
         CraftedLauncher.logger.info("Theme '{}' loaded!", this.theme.getName());
-
-        //Load the language
-        Text.loadLocales(this.settingsManager, this.theme).join();
-
-        CraftedLauncher.logger.info("Language '{}' loaded!", Text.getActiveLocale());
-
-        Application.launch(UIManager.class);
     }
 
     public Theme getTheme() {

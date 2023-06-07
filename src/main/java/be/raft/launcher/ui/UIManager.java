@@ -7,7 +7,6 @@ import be.raft.launcher.ui.panel.Panel;
 import be.raft.launcher.ui.panel.main.WelcomePanel;
 import be.raft.launcher.ui.panel.side.LoginSidePanel;
 import javafx.application.Application;
-import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -49,6 +48,8 @@ public class UIManager extends Application {
             this.setSideBar(new LoginSidePanel());
             this.setMainPane(new EmptyPanel("login-empty-panel"));
         }
+
+        CraftedLauncher.logger.info("Launcher window loaded in {}ms", (System.currentTimeMillis() - CraftedLauncher.startTime));
     }
 
     public void initWindow() {
@@ -108,6 +109,7 @@ public class UIManager extends Application {
     public CraftedLauncher getLauncher() {
         return launcher;
     }
+
     public Theme getTheme() {
         return launcher.getTheme();
     }

@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class DefaultTheme extends Theme{
+public class DefaultTheme extends Theme {
     public static final DefaultTheme theme = new DefaultTheme();
     private static final int BACKGROUND_COUNT = 6;
+
     public DefaultTheme() {
         super("Default", "default", "Default Theme of the launcher", "1.0.0",
                 new String[]{"RaftDev"}, "All Right reserved on the background images!");

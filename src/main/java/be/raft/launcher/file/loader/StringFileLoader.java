@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class StringFileLoader extends FileLoader<String>{
+public class StringFileLoader extends FileLoader<String> {
     public StringFileLoader(File file) {
         super(file);
     }
@@ -22,7 +22,7 @@ public class StringFileLoader extends FileLoader<String>{
 
     @Override
     public void save(String value) {
-        try(FileWriter writer = new FileWriter(this.file)) {
+        try (FileWriter writer = new FileWriter(this.file)) {
             writer.write(value);
         } catch (IOException e) {
             throw new RuntimeException("Unable to save file '" + this.file + "':", e);
