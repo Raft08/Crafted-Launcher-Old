@@ -2,6 +2,9 @@
   "btn.continue": "Continue",
   "btn.retry": "Retry",
 
+  "label.username": "Username",
+  "label.required": "Required",
+
   "login_option.microsoft": "Microsoft",
   "login_option.offline": "Offline",
 
@@ -10,6 +13,9 @@
   "label.login.microsoft.status.failed": "Unable to login: %s0",
   "label.login.microsoft.status.failed.window_closed": "Window closed",
   "label.login.microsoft.status.success": "Successfully connected!",
+  "label.login.offline.title": "Offline Login",
+  "label.login.offline.username_error.invalid": "Invalid username",
+  "btn.login.offline.login": "Login",
 
   "label.welcome.title": "Crafted Launcher",
   "label.welcome.message": "Welcome to the Crafted Launcher, This project was made by RaftDev because of need of a easy-to-use fast launcher for Minecraft. I highly recommend trying other projects like MultiMC, CurseForge, GDLauncher, ect.. and try to find the one that suits you the best! Crafted Launcher is fully open-source so if you have an issue or want to add a feature don't hesitate to make an issue or a pull request on the github page!"

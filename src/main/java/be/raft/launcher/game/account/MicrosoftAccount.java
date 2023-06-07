@@ -16,7 +16,6 @@ public class MicrosoftAccount extends Account {
     public MicrosoftAccount(String username, UUID uniqueId, String refreshToken) {
         super(username, uniqueId);
         this.refreshToken = refreshToken;
-
     }
 
     public MicrosoftAccount(String username, UUID uniqueId, String refreshToken, String accessToken) {

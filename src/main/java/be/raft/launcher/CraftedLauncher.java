@@ -64,6 +64,7 @@ public class CraftedLauncher {
         });
 
         //Load accounts
+        AccountManager.loadClass();
         long accountLoadingStartTime = System.currentTimeMillis();
         CompletableFuture<Void> accountLoadingFuture = AccountManager.loadAccounts().thenAccept(accounts -> {
             this.availableAccounts = accounts;

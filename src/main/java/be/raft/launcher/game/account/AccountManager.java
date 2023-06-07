@@ -57,4 +57,11 @@ public class AccountManager {
             return accounts;
         });
     }
+
+    /*
+     * Load the class before loading the accounts,
+     * It's only to represent more accurately the time that takes the accounts took to load.
+     */
+    public static void loadClass() {
+    }
 }

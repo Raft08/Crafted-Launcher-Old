@@ -16,6 +16,7 @@
 
 .clickable-label {
     -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+    -fx-cursor: hand;
 }
 
 .clickable-label:hover {
@@ -46,4 +47,41 @@
     -fx-max-height: 30;
     /* Make it absurdly big to make sure the whole side menu width will be taken */
     -fx-max-width: 1000;
+}
+
+.text-field {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-border-color: transparent transparent white transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.3);
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+    -fx-font-family: "Avenir Medium";
+    -fx-font-size: 20;
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Avenir Medium";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-text-alignment: center;
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}
+
+.button:disabled {
+    -fx-border-color: gray;
+}
+
+.button:pressed {
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
 }

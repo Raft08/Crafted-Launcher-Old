@@ -34,3 +34,34 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
     -fx-effect-insets: 0 0 0 10;
 }
+
+#login-offline-title {
+    -fx-font-size: 60px;
+    -fx-translate-y: -100;
+}
+
+#login-offline-username-error {
+    -fx-text-alignment: right;
+    -fx-text-fill: red;
+    -fx-font-size: 14px;
+    -fx-translate-y: -35;
+    -fx-translate-x: 167;
+}
+
+#login-offline-username-label {
+    -fx-font-size: 14px;
+    -fx-translate-y: -35;
+    -fx-translate-x: -167;
+}
+
+#login-offline-username-field {
+    -fx-max-width: 400;
+    -fx-max-height: 50;
+    -fx-text-alignment: left;
+}
+
+#login-offline-login-btn {
+    -fx-pref-width: 320px;
+    -fx-pref-height: 50px;
+    -fx-translate-y: 100;
+}
