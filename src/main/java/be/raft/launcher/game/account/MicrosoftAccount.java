@@ -37,7 +37,7 @@ public class MicrosoftAccount extends Account{
                 return null;
             }
         }
-        
+
         return new AuthInfo(this.username, this.uniqueId, this.accessToken);
     }
 }

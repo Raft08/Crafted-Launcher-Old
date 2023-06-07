@@ -89,10 +89,13 @@ public class MicrosoftLoginOption extends Panel implements LoginOption {
 
             Platform.runLater(() -> this.loginStatus.setText(Text.translated("label.login.microsoft.status.success")));
 
-            Account account = new MicrosoftAccount(result.getProfile().getName(), UUID.fromString(result.getProfile().getId()),
+            UUID accountUniqueId = UUID.fromString(result.getProfile().getId().replaceAll("(.{8})(.{4})(.{4})(.{4})(.{12})", "$1-$2-$3-$4-$5"));
+
+            Account account = new MicrosoftAccount(result.getProfile().getName(), accountUniqueId,
                     result.getRefreshToken(), result.getAccessToken());
 
-            CraftedLauncher.logger.info("Logged as {}", account.getUsername());
+            CraftedLauncher.logger.info("Logged as {}({})", account.getUsername(), account.getUniqueId());
+
             //TODO: Save the account somewhere
         });
     }
