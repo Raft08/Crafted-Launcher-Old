@@ -5,6 +5,7 @@ import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
 import be.raft.launcher.ui.panel.EmptyPanel;
 import be.raft.launcher.ui.panel.Panel;
+import be.raft.launcher.ui.panel.side.HomeSidePanel;
 import be.raft.launcher.ui.panel.side.LoginSidePanel;
 import javafx.scene.control.Label;
 import org.jetbrains.annotations.NotNull;
@@ -44,8 +45,12 @@ public class WelcomePanel extends Panel {
                 this.uiManager.getLauncher().getSettingsManager().save();
             }
 
-            this.uiManager.setSideBar(new LoginSidePanel());
-            this.uiManager.setMainPane(new EmptyPanel("login-empty-panel"));
+            if (this.uiManager.getLauncher().getSelectedAccount() == null) {
+                this.uiManager.setSideBar(new LoginSidePanel());
+                this.uiManager.setMainPane(new EmptyPanel("login-empty-panel"));
+            } else {
+                this.uiManager.setSideBar(new HomeSidePanel());
+            }
         });
     }
 

@@ -5,6 +5,7 @@ import be.raft.launcher.resources.theme.Theme;
 import be.raft.launcher.ui.panel.EmptyPanel;
 import be.raft.launcher.ui.panel.Panel;
 import be.raft.launcher.ui.panel.main.WelcomePanel;
+import be.raft.launcher.ui.panel.side.HomeSidePanel;
 import be.raft.launcher.ui.panel.side.LoginSidePanel;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -45,8 +46,12 @@ public class UIManager extends Application {
             this.setMainPane(new WelcomePanel());
             this.setSideBar(new EmptyPanel("welcome-side-panel"));
         } else {
-            this.setSideBar(new LoginSidePanel());
-            this.setMainPane(new EmptyPanel("login-empty-panel"));
+            if (this.launcher.getSelectedAccount() == null) {
+                this.setSideBar(new LoginSidePanel());
+                this.setMainPane(new EmptyPanel("login-empty-panel"));
+            } else {
+                this.setSideBar(new HomeSidePanel());
+            }
         }
 
         CraftedLauncher.logger.info("Launcher window loaded in {}ms", (System.currentTimeMillis() - CraftedLauncher.startTime));

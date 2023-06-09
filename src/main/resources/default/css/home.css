@@ -1,0 +1,29 @@
+#home-side-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
+    -fx-effect-insets: 0 0 0 10;
+}
+
+#home-title {
+    -fx-font-size: 54px;
+}
+
+#home-profiles-panel {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
+    -fx-effect-insets: 0 0 0 10;
+}
+
+#home-profiles-top-bar {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent linear-gradient(to right, transparent, white, white, white, white, white, white, white, transparent) transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+#home-profiles-holder {
+    -fx-background-color: blue;
+}
+
+#home-profiles-profile {
+    -fx-background-color: red;
+}

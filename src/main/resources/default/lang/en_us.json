@@ -5,6 +5,9 @@
   "label.username": "Username",
   "label.required": "Required",
 
+  "label.home.title": "Crafted\n   Launcher",
+  "sidebar_entry.home.profiles": "Profiles",
+
   "login_option.microsoft": "Microsoft",
   "login_option.offline": "Offline",
 
