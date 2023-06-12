@@ -93,3 +93,21 @@
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+    -fx-font-size: 6;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-padding: 0;
+}
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-padding: 0;
+}
+
+.scroll-pane .thumb {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
