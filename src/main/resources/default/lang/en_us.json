@@ -5,6 +5,8 @@
   "label.username": "Username",
   "label.required": "Required",
   "label.invalid": "Invalid",
+  "label.loading": "Loading..",
+  "label.failed": "Failed",
 
   "label.home.title": "Crafted\n   Launcher",
   "btn.home.profiles.create": "Create Profile",
@@ -14,6 +16,8 @@
   "label.home.profiles.creation.config_block.core_configuration.title": "Core Configuration",
   "label.home.profiles.creation.config_block.core_configuration.profile_name": "Profile Name",
   "label.home.profiles.creation.config_block.core_configuration.save_location": "Profile files will be saved at '%s0'",
+  "label.home.profiles.creation.config_block.core_configuration.show_snapshots": "Show Snapshots",
+  "label.home.profiles.creation.config_block.core_configuration.version_selector": "Select Version",
 
   "login_option.microsoft": "Microsoft",
   "login_option.offline": "Offline",

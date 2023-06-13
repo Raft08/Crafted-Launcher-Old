@@ -89,3 +89,22 @@
     -fx-translate-x: 3;
     -fx-font-size: 10px;
 }
+
+#home-profiles-creation-core-block-version-selector-title {
+    -fx-font-size: 20px;
+    -fx-translate-y: 38;
+    -fx-translate-x: 3;
+}
+
+#home-profiles-creation-core-block-version-selector-show-snapshot {
+    -fx-font-size: 16px;
+    -fx-translate-y: 35;
+    -fx-translate-x: -3;
+}
+
+#home-profiles-creation-core-block-version-selector {
+    -fx-translate-y: 75;
+
+    /* Make it absurdly big to make sure the whole width will be taken */
+    -fx-pref-width: 1000000;
+}

@@ -1,6 +1,7 @@
 package be.raft.launcher.ui.panel.main.home.profiles;
 
 import be.raft.launcher.file.GameFileManager;
+import be.raft.launcher.game.mojang.MojangFileManager;
 import be.raft.launcher.game.profiles.ProfileManager;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
@@ -8,18 +9,22 @@ import be.raft.launcher.ui.panel.Panel;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 public class HomeProfileCreationPanel extends Panel {
     @Override
     public void init() {
+        CompletableFuture<List<String>> versionsFuture = MojangFileManager.getVersion(false);
+
         //Base Pane and scroll pane
         VBox basePane = new VBox();
         basePane.setId("home-profiles-creation-base-pane");
@@ -43,11 +48,11 @@ public class HomeProfileCreationPanel extends Panel {
         basePane.getChildren().add(title);
 
         //Configuration Blocks
-        //Basic Configuration
+        //Core Configuration
         GridPane basicConfigurationBlock = createConfigurationBlock("label.home.profiles.creation.config_block.core_configuration.title");
         basicConfigurationBlock.setId("home-profiles-creation-core-block");
 
-        //Basic Configuration: Name Field Title
+        //Core Configuration: Name Field Title
         Label nameFieldTitle = new Label(Text.translated("label.home.profiles.creation.config_block.core_configuration.profile_name"));
         nameFieldTitle.setId("home-profiles-creation-core-block-name-field-title");
 
@@ -56,7 +61,7 @@ public class HomeProfileCreationPanel extends Panel {
 
         basicConfigurationBlock.getChildren().add(nameFieldTitle);
 
-        //Basic Configuration: Name Field Error
+        //Core Configuration: Name Field Error
         Label nameFieldError = new Label();
         nameFieldError.setVisible(false);
         nameFieldError.setId("home-profiles-creation-core-block-name-field-error");
@@ -67,7 +72,7 @@ public class HomeProfileCreationPanel extends Panel {
 
         basicConfigurationBlock.getChildren().add(nameFieldError);
 
-        //Basic Configuration: Name Field
+        //Core Configuration: Name Field
         TextField nameField = new TextField();
         nameField.setPromptText(Text.translated("label.home.profiles.creation.config_block.core_configuration.profile_name"));
         nameField.setId("home-profiles-creation-core-block-name-field");
@@ -77,7 +82,7 @@ public class HomeProfileCreationPanel extends Panel {
 
         basicConfigurationBlock.getChildren().add(nameField);
 
-        //Basic Configuration: Save Location
+        //Core Configuration: Save Location
         Label profileSaveLocationLabel = new Label();
         profileSaveLocationLabel.setVisible(false);
         profileSaveLocationLabel.setId("home-profiles-creation-core-block-save-location");
@@ -87,10 +92,44 @@ public class HomeProfileCreationPanel extends Panel {
 
         basicConfigurationBlock.getChildren().add(profileSaveLocationLabel);
 
+        //Core Configuration: Version Selector Title
+        Label versionSelectorTitle = new Label(Text.translated("label.home.profiles.creation.config_block.core_configuration.version_selector"));
+        versionSelectorTitle.setId("home-profiles-creation-core-block-version-selector-title");
+
+        Placing.setCanTakeAllSize(versionSelectorTitle);
+
+        basicConfigurationBlock.getChildren().add(versionSelectorTitle);
+
+        //Core Configuration: Show Snapshots
+        CheckBox showSnapshots = new CheckBox(Text.translated("label.home.profiles.creation.config_block.core_configuration.show_snapshots"));
+        showSnapshots.setId("home-profiles-creation-core-block-version-selector-show-snapshot");
+
+        Placing.setCanTakeAllSize(showSnapshots);
+        Placing.setRight(showSnapshots);
+
+        basicConfigurationBlock.getChildren().add(showSnapshots);
+
+        //Core Configuration: Version Selector
+        ComboBox<String> versionSelector = new ComboBox<>();
+        versionSelector.setId("home-profiles-creation-core-block-version-selector");
+
+        Placing.setCanTakeAllSize(versionSelector);
+
+        List<String> versions = versionsFuture.join(); //Join the future, if finished the value will be directly given, else thread will wait
+        if (versions == null) {
+            versionSelector.setItems(FXCollections.observableList(List.of(Text.translated("label.failed"))));
+            versionSelector.setDisable(true);
+        } else {
+            versionSelector.setItems(FXCollections.observableList(versions));
+            versionSelector.setValue(versions.get(0));
+        }
+
+        basicConfigurationBlock.getChildren().add(versionSelector);
+
+
         basePane.getChildren().add(basicConfigurationBlock);
 
         //Dynamic Code
-
         Translate errorFieldTranslate = new Translate();
         nameFieldError.getTransforms().add(errorFieldTranslate);
 
@@ -119,7 +158,27 @@ public class HomeProfileCreationPanel extends Panel {
                 return;
             }
 
+            if (nameField.getText().contains("\\") || nameField.getText().contains("/")) {
+                nameFieldError.setText("*" + Text.translated("label.invalid"));
+                nameFieldError.setVisible(true);
+                errorFieldAnim.play();
+                return;
+            }
+
             nameFieldError.setVisible(false);
+        });
+
+        showSnapshots.selectedProperty().addListener(observable -> {
+            List<String> updatedVersion = MojangFileManager.getVersion(showSnapshots.isSelected()).join();
+
+            if(updatedVersion == null) {
+                versionSelector.setItems(FXCollections.observableList(List.of(Text.translated("label.failed"))));
+                versionSelector.setDisable(true);
+                return;
+            }
+
+            versionSelector.setItems(FXCollections.observableList(updatedVersion));
+            versionSelector.setValue(updatedVersion.get(0));
         });
     }
 

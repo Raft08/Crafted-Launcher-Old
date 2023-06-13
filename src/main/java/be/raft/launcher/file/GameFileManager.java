@@ -40,13 +40,7 @@ public class GameFileManager {
     public static File getThemeDirectory() {
         return new File(getGameDirectory(), "themes");
     }
-    public static boolean validDirectoryName(String filename) {
-        File f = new File(filename);
-        try {
-            f.getCanonicalPath();
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+    public static File getCacheDirectory() {
+        return new File(getGameDirectory(), "cache");
     }
 }
