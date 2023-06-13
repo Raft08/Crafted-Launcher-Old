@@ -39,7 +39,6 @@ public class HomeProfilesPanel extends HomeSideMenuEntry {
         profilesHolder.setId("home-profiles-holder");
 
         Placing.setCanTakeAllSize(profilesHolder);
-        Placing.setCenterH(profilesHolder);
 
         for (int i = 0; i < 48; i++) {
             GridPane gridPane = new GridPane();

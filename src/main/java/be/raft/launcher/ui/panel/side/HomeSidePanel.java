@@ -71,7 +71,12 @@ public class HomeSidePanel extends Panel {
 
             Placing.setCanTakeAllSize(option);
 
-            option.setOnMouseClicked(event -> this.uiManager.setMainPane(entry));
+            option.setOnMouseClicked(event -> {
+                entry.getLayout().getChildren().clear();
+                entry.getLayout().getRowConstraints().clear();
+                entry.getLayout().getColumnConstraints().clear();
+                this.uiManager.setMainPane(entry);
+            });
 
             sideMenu.getChildren().add(option);
 

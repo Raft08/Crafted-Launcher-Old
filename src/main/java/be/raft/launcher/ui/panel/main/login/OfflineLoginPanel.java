@@ -82,7 +82,7 @@ public class OfflineLoginPanel extends Panel {
         );
 
         //Dynamic UI code
-        usernameField.setOnKeyPressed(event -> {
+        usernameField.textProperty().addListener(observable -> {
             if (usernameField.getText().isEmpty()) {
                 usernameErrorField.setText("*" + Text.translated("label.required"));
                 usernameErrorField.setVisible(true);
@@ -110,7 +110,13 @@ public class OfflineLoginPanel extends Panel {
 
             CraftedLauncher.logger.info("Logged as: {}({})", account.getUsername(), account.getUniqueId());
 
-            JsonFileLoader accountLoader = new JsonFileLoader(new File(GameFileManager.getFileInGameDirectory(AccountManager.ACCOUNTS_DIR),
+            File accountDir = GameFileManager.getFileInGameDirectory(AccountManager.ACCOUNTS_DIR);
+
+            if (!accountDir.isDirectory()) {
+                accountDir.mkdirs();
+            }
+
+            JsonFileLoader accountLoader = new JsonFileLoader(new File(accountDir,
                     account.getUniqueId() + ".json"));
 
             if (accountLoader.fileExists()) {

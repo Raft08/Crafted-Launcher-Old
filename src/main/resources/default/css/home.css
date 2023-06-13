@@ -1,3 +1,5 @@
+@import "home/profiles.css";
+
 #home-side-panel {
     -fx-background-color: rgba(0, 0, 0, 0.5);
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
@@ -6,40 +8,4 @@
 
 #home-title {
     -fx-font-size: 54px;
-}
-
-#home-profiles-panel {
-    -fx-background-color: rgba(0, 0, 0, 0.2);
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
-    -fx-effect-insets: 0 0 0 10;
-}
-
-#home-profiles-top-bar {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent transparent linear-gradient(to right, transparent, white, white, white, white, white, white, white, transparent) transparent;
-    -fx-border-width: 0 0 2 0;
-}
-
-#home-profiles-holder {
-    -fx-hgap: 20;
-    -fx-vgap: 20;
-    -fx-padding: 15 20 15 20;
-}
-
-#home-profiles-profile {
-    -fx-background-color: rgba(0, 0, 0, 0.2);
-    -fx-border-color: rgba(255, 255, 255, 0.5);
-    -fx-background-radius: 3px;
-    -fx-border-radius: 3px;
-    -fx-pref-width: 200;
-    -fx-pref-height: 285;
-}
-
-#home-profiles-create-profile {
-    -fx-font-size: 20px;
-    -fx-padding: 0 20 0 0;
-}
-
-#home-profiles-creation-panel {
-
 }

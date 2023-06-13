@@ -3,6 +3,7 @@ package be.raft.launcher.file;
 import be.raft.launcher.CraftedLauncher;
 
 import java.io.File;
+import java.io.IOException;
 
 public class GameFileManager {
     private static final String LAUNCHER_FOLDER = "crafted";
@@ -38,5 +39,14 @@ public class GameFileManager {
 
     public static File getThemeDirectory() {
         return new File(getGameDirectory(), "themes");
+    }
+    public static boolean validDirectoryName(String filename) {
+        File f = new File(filename);
+        try {
+            f.getCanonicalPath();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
