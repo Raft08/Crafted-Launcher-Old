@@ -10,6 +10,7 @@ import be.raft.launcher.game.login.MicrosoftLoginOption;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
 import be.raft.launcher.ui.panel.Panel;
+import be.raft.launcher.ui.panel.side.HomeSidePanel;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -99,6 +100,9 @@ public class MicrosoftLoginPanel extends Panel {
             this.uiManager.getLauncher().setSelectedAccount(account);
             this.uiManager.getLauncher().getSettingsManager().setString("selectedAccount", account.getUniqueId().toString());
             this.uiManager.getLauncher().getSettingsManager().save();
+
+            //Go to the home panel
+            Platform.runLater(() -> this.uiManager.setSideBar(new HomeSidePanel()));
         });
     }
 

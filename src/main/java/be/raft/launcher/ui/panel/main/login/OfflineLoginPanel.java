@@ -9,9 +9,11 @@ import be.raft.launcher.game.account.OfflineAccount;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
 import be.raft.launcher.ui.panel.Panel;
+import be.raft.launcher.ui.panel.side.HomeSidePanel;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -120,6 +122,9 @@ public class OfflineLoginPanel extends Panel {
             this.uiManager.getLauncher().setSelectedAccount(account);
             this.uiManager.getLauncher().getSettingsManager().setString("selectedAccount", account.getUniqueId().toString());
             this.uiManager.getLauncher().getSettingsManager().save();
+
+            //Go to the home panel
+            Platform.runLater(() -> this.uiManager.setSideBar(new HomeSidePanel()));
         });
 
     }

@@ -6,6 +6,7 @@
   "label.required": "Required",
 
   "label.home.title": "Crafted\n   Launcher",
+  "btn.home.profiles.create": "Create Profile",
   "sidebar_entry.home.profiles": "Profiles",
 
   "login_option.microsoft": "Microsoft",

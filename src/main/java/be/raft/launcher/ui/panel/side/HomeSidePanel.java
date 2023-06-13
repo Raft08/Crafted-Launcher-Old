@@ -1,13 +1,10 @@
 package be.raft.launcher.ui.panel.side;
 
-import be.raft.launcher.game.account.AccountManager;
-import be.raft.launcher.game.login.LoginOption;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
 import be.raft.launcher.ui.panel.Panel;
-import be.raft.launcher.ui.panel.main.home.HomeProfilesPanel;
+import be.raft.launcher.ui.panel.main.home.profiles.HomeProfilesPanel;
 import be.raft.launcher.ui.panel.main.home.HomeSideMenuEntry;
-import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;

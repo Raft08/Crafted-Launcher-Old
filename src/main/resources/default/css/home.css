@@ -34,3 +34,12 @@
     -fx-pref-width: 200;
     -fx-pref-height: 285;
 }
+
+#home-profiles-create-profile {
+    -fx-font-size: 20px;
+    -fx-padding: 0 20 0 0;
+}
+
+#home-profiles-creation-panel {
+
+}
