@@ -5,7 +5,6 @@
 }
 
 #home-profiles-top-bar {
-    -fx-background-color: transparent;
     -fx-border-color: transparent transparent linear-gradient(to right, transparent, white, white, white, white, white, white, white, transparent) transparent;
     -fx-border-width: 0 0 2 0;
 }
@@ -34,6 +33,21 @@
     -fx-background-color: rgba(0, 0, 0, 0.1);
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 3);
     -fx-effect-insets: 0 0 0 10;
+}
+
+#home-profiles-creation-bottom-pane {
+    -fx-border-color: linear-gradient(to right, transparent, white, white, white, white, white, white, white, transparent) transparent transparent transparent;
+    -fx-border-width: 2 0 0 0;
+    -fx-alignment: center;
+    -fx-spacing: 50;
+}
+
+#home-profiles-creation-bottom-create-btn {
+    -fx-font-size: 40px;
+}
+
+#home-profiles-creation-bottom-cancel-btn {
+    -fx-font-size: 40px;
 }
 
 #home-profiles-creation-base-pane {

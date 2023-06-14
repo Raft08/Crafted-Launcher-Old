@@ -3,7 +3,11 @@ package be.raft.launcher.file;
 import be.raft.launcher.CraftedLauncher;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class GameFileManager {
     private static final String LAUNCHER_FOLDER = "crafted";
@@ -42,5 +46,26 @@ public class GameFileManager {
     }
     public static File getCacheDirectory() {
         return new File(getGameDirectory(), "cache");
+    }
+
+    public static boolean validateChecksum(String algorithm, String checksum, File file) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(algorithm);
+
+            try (DigestInputStream dis = new DigestInputStream(new FileInputStream(file), md)) {
+                while (dis.read() != -1) ; //empty loop to clear the data
+                md = dis.getMessageDigest();
+            }
+
+            // bytes to hex
+            StringBuilder result = new StringBuilder();
+            for (byte b : md.digest()) {
+                result.append(String.format("%02x", b));
+            }
+            return result.toString().equals(checksum);
+        } catch (IOException | NoSuchAlgorithmException e) {
+            CraftedLauncher.logger.error("Unable to validate checksum of '{}'", file, e);
+            return false;
+        }
     }
 }

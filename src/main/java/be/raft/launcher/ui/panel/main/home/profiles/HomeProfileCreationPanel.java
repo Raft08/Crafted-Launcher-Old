@@ -1,5 +1,6 @@
 package be.raft.launcher.ui.panel.main.home.profiles;
 
+import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.file.GameFileManager;
 import be.raft.launcher.game.mojang.MojangFileManager;
 import be.raft.launcher.game.profiles.ProfileManager;
@@ -12,11 +13,14 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -24,6 +28,30 @@ public class HomeProfileCreationPanel extends Panel {
     @Override
     public void init() {
         CompletableFuture<List<String>> versionsFuture = MojangFileManager.getVersion(false);
+
+        //Bottom Bar
+        HBox bottomBar = new HBox();
+        bottomBar.setId("home-profiles-creation-bottom-pane");
+
+        Placing.setCanTakeAllSize(bottomBar);
+
+        //Bottom Bar: Create Profile
+        Label createProfileBtn = new Label(Text.translated("btn.create"));
+        createProfileBtn.getStyleClass().add("clickable-label");
+        createProfileBtn.setId("home-profiles-creation-bottom-create-btn");
+
+        Placing.setCanTakeAllSize(createProfileBtn);
+
+        bottomBar.getChildren().add(createProfileBtn);
+
+        //Bottom Bar: Cancel
+        Label cancelBtn = new Label(Text.translated("btn.cancel"));
+        cancelBtn.getStyleClass().add("clickable-label");
+        cancelBtn.setId("home-profiles-creation-bottom-cancel-btn");
+
+        Placing.setCanTakeAllSize(cancelBtn);
+
+        bottomBar.getChildren().add(cancelBtn);
 
         //Base Pane and scroll pane
         VBox basePane = new VBox();
@@ -37,7 +65,15 @@ public class HomeProfileCreationPanel extends Panel {
 
         Placing.setCanTakeAllSize(scrollPane);
 
-        this.layout.getChildren().add(scrollPane);
+        //Constraints
+        RowConstraints bottomBarConstraints = new RowConstraints();
+        bottomBarConstraints.setMinHeight(70);
+        bottomBarConstraints.setMaxHeight(70);
+
+        this.layout.getRowConstraints().addAll(new RowConstraints(), bottomBarConstraints);
+
+        this.layout.add(scrollPane, 0, 0);
+        this.layout.add(bottomBar, 0, 1);
 
         //Title
         Label title = new Label(Text.translated("label.home.profiles.creation.title"));
@@ -142,12 +178,41 @@ public class HomeProfileCreationPanel extends Panel {
                 new KeyFrame(Duration.millis(500), new KeyValue(errorFieldTranslate.xProperty(), 0))
         );
 
+        //Bottom Bar
+        cancelBtn.setOnMouseClicked(event -> {
+            this.uiManager.setMainPane(new HomeProfilesPanel());
+        });
+
+        createProfileBtn.setOnMouseClicked(event -> {
+            //Check things for every configuration block
+            if (nameField.getText().isEmpty()) {
+                nameFieldError.setText("*" + Text.translated("label.required"));
+                nameFieldError.setVisible(true);
+                errorFieldAnim.play();
+                return;
+            }
+
+            if (nameField.getText().contains("\\") || nameField.getText().contains("/")) {
+                nameFieldError.setText("*" + Text.translated("label.invalid"));
+                nameFieldError.setVisible(true);
+                errorFieldAnim.play();
+                return;
+            }
+
+            //Create Profile
+            File profileDir = new File(GameFileManager.getFileInGameDirectory(ProfileManager.PROFILE_LOCATION),
+                    this.toPrimitiveName(nameField.getText()));
+
+            ProfileManager.createVanillaProfile(nameField.getText(), profileDir, versionSelector.getValue(),
+                    callback -> CraftedLauncher.logger.info(Text.translated(callback.getKey()) + ": " + callback.getValue()));
+        });
+
         //Basic Configuration
         nameField.textProperty().addListener(observable -> {
             String profileLocation = GameFileManager.getFileInGameDirectory(ProfileManager.PROFILE_LOCATION).getAbsolutePath() + "\\";
 
             profileSaveLocationLabel.setText(Text.translated("label.home.profiles.creation.config_block.core_configuration.save_location",
-                    profileLocation + nameField.getText()));
+                    profileLocation + this.toPrimitiveName(nameField.getText())));
             profileSaveLocationLabel.setVisible(true);
 
             //Error
@@ -199,6 +264,10 @@ public class HomeProfileCreationPanel extends Panel {
         configBlock.getChildren().add(title);
 
         return configBlock;
+    }
+
+    private String toPrimitiveName(String name) {
+        return name.toLowerCase().replaceAll("[^a-zA-Z0-9]", " ").replace(" ", "_");
     }
 
     @Override

@@ -1,6 +1,8 @@
 {
   "btn.continue": "Continue",
   "btn.retry": "Retry",
+  "btn.create": "Create",
+  "btn.cancel": "Cancel",
 
   "label.username": "Username",
   "label.required": "Required",
@@ -32,5 +34,9 @@
   "btn.login.offline.login": "Login",
 
   "label.welcome.title": "Crafted Launcher",
-  "label.welcome.message": "Welcome to the Crafted Launcher, This project was made by RaftDev because of need of a easy-to-use fast launcher for Minecraft. I highly recommend trying other projects like MultiMC, CurseForge, GDLauncher, ect.. and try to find the one that suits you the best! Crafted Launcher is fully open-source so if you have an issue or want to add a feature don't hesitate to make an issue or a pull request on the github page!"
+  "label.welcome.message": "Welcome to the Crafted Launcher, This project was made by RaftDev because of need of a easy-to-use fast launcher for Minecraft. I highly recommend trying other projects like MultiMC, CurseForge, GDLauncher, ect.. and try to find the one that suits you the best! Crafted Launcher is fully open-source so if you have an issue or want to add a feature don't hesitate to make an issue or a pull request on the github page!",
+
+  "download.libraries": "Downloading libraries...",
+  "download.assets": "Downloading assets...",
+  "download.jar": "Downloading minecraft..."
 }
