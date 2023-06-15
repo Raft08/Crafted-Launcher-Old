@@ -30,7 +30,10 @@ public class HomeProfileCreationPanel extends Panel {
     @Override
     public void init() {
         CompletableFuture<VersionManifest> versionsFuture = new MojangPistonMeta(new OkHttpClient().newBuilder().build(),
-                GameFileManager.getCacheDirectory()).getVersionManifest();
+                GameFileManager.getCacheDirectory()).getVersionManifest().exceptionally(throwable -> {
+                    CraftedLauncher.logger.error("Failed to retrieve version manifest!", throwable);
+                    return null;
+        });
 
         //Bottom Bar
         HBox bottomBar = new HBox();
@@ -203,6 +206,11 @@ public class HomeProfileCreationPanel extends Panel {
                 return;
             }
 
+            if (manifest == null) {
+                CraftedLauncher.logger.error("Cannot proceed to create profile, manifest is null!");
+                return;
+            }
+
             //Create Profile
             File profileDir = new File(GameFileManager.getFileInGameDirectory(ProfileManager.PROFILE_LOCATION),
                     this.toPrimitiveName(nameField.getText()));
@@ -238,13 +246,13 @@ public class HomeProfileCreationPanel extends Panel {
         });
 
         showSnapshots.selectedProperty().addListener(observable -> {
-            List<String> updatedVersion = manifest.getVersions(showSnapshots.isSelected());
-
-            if(updatedVersion == null) {
+            if(manifest == null) {
                 versionSelector.setItems(FXCollections.observableList(List.of(Text.translated("label.failed"))));
                 versionSelector.setDisable(true);
                 return;
             }
+
+            List<String> updatedVersion = manifest.getVersions(showSnapshots.isSelected());
 
             versionSelector.setItems(FXCollections.observableList(updatedVersion));
             versionSelector.setValue(updatedVersion.get(0));
