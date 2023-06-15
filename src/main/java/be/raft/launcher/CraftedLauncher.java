@@ -4,7 +4,6 @@ import be.raft.launcher.file.GameFileManager;
 import be.raft.launcher.file.SettingsManager;
 import be.raft.launcher.game.account.Account;
 import be.raft.launcher.game.account.AccountManager;
-import be.raft.launcher.game.mojang.MojangFileManager;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.resources.theme.DefaultTheme;
 import be.raft.launcher.resources.theme.Theme;
@@ -50,9 +49,6 @@ public class CraftedLauncher {
 
     public CraftedLauncher() {
         instance = this;
-
-        //Load Classes
-        CompletableFuture.runAsync(MojangFileManager::init);
 
         CraftedLauncher.logger.info("Initializing Crafted Launcher...");
 

@@ -2,7 +2,8 @@ package be.raft.launcher.ui.panel.main.home.profiles;
 
 import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.file.GameFileManager;
-import be.raft.launcher.game.mojang.MojangFileManager;
+import be.raft.launcher.game.api.mojang.MojangPistonMeta;
+import be.raft.launcher.game.api.mojang.entities.VersionManifest;
 import be.raft.launcher.game.profiles.ProfileManager;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
@@ -18,6 +19,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
+import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -27,7 +29,8 @@ import java.util.concurrent.CompletableFuture;
 public class HomeProfileCreationPanel extends Panel {
     @Override
     public void init() {
-        CompletableFuture<List<String>> versionsFuture = MojangFileManager.getVersion(false);
+        CompletableFuture<VersionManifest> versionsFuture = new MojangPistonMeta(new OkHttpClient().newBuilder().build(),
+                GameFileManager.getCacheDirectory()).getVersionManifest();
 
         //Bottom Bar
         HBox bottomBar = new HBox();
@@ -151,11 +154,12 @@ public class HomeProfileCreationPanel extends Panel {
 
         Placing.setCanTakeAllSize(versionSelector);
 
-        List<String> versions = versionsFuture.join(); //Join the future, if finished the value will be directly given, else thread will wait
-        if (versions == null) {
-            versionSelector.setItems(FXCollections.observableList(List.of(Text.translated("label.failed"))));
+        VersionManifest manifest = versionsFuture.join(); //Join the future. If finished, the value will be directly accessible else thread will wait
+        if (manifest == null) {
+            versionSelector.setValue(Text.translated("label.failed"));
             versionSelector.setDisable(true);
         } else {
+            List<String> versions = manifest.getVersions(false);
             versionSelector.setItems(FXCollections.observableList(versions));
             versionSelector.setValue(versions.get(0));
         }
@@ -234,7 +238,7 @@ public class HomeProfileCreationPanel extends Panel {
         });
 
         showSnapshots.selectedProperty().addListener(observable -> {
-            List<String> updatedVersion = MojangFileManager.getVersion(showSnapshots.isSelected()).join();
+            List<String> updatedVersion = manifest.getVersions(showSnapshots.isSelected());
 
             if(updatedVersion == null) {
                 versionSelector.setItems(FXCollections.observableList(List.of(Text.translated("label.failed"))));

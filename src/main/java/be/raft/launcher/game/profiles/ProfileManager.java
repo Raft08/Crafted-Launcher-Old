@@ -2,7 +2,6 @@ package be.raft.launcher.game.profiles;
 
 import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.file.GameFileManager;
-import be.raft.launcher.game.mojang.MojangFileManager;
 import javafx.util.Pair;
 
 import java.io.File;
@@ -19,8 +18,6 @@ public class ProfileManager {
                 profileDir, version);
 
         profileDir.mkdirs();
-
-        MojangFileManager.installVersion(version, profileDir, creationCallBack);
 
         return new Profile();
     }
