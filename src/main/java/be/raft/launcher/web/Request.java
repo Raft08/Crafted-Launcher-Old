@@ -110,6 +110,7 @@ public class Request <T> {
                             loader.getFile().delete();
                         }
 
+                        loader.getFile().getParentFile().mkdirs();
                         loader.createFile();
                         loader.save(response.body().string());
                     }

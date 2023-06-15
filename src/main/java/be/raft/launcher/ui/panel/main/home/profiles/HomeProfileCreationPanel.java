@@ -207,7 +207,7 @@ public class HomeProfileCreationPanel extends Panel {
             File profileDir = new File(GameFileManager.getFileInGameDirectory(ProfileManager.PROFILE_LOCATION),
                     this.toPrimitiveName(nameField.getText()));
 
-            ProfileManager.createVanillaProfile(nameField.getText(), profileDir, versionSelector.getValue(),
+            ProfileManager.createVanillaProfile(nameField.getText(), profileDir, versionSelector.getValue(), manifest,
                     callback -> CraftedLauncher.logger.info(Text.translated(callback.getKey()) + ": " + callback.getValue()));
         });
 
