@@ -6,6 +6,7 @@ import be.raft.launcher.file.loader.JsonFileLoader;
 import be.raft.launcher.game.api.mojang.entities.VersionManifest;
 import be.raft.launcher.game.api.mojang.entities.VersionSchema;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -149,6 +150,7 @@ public class Profile {
         return playable;
     }
 
+    @TestOnly
     public void setPlayable(boolean playable) {
         this.playable = playable;
     }

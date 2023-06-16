@@ -26,14 +26,6 @@ public class HomeProfilesPanel extends HomeSideMenuEntry {
 
     @Override
     public void init() {
-        //FOR TESTING PURPOSES
-        Profile dummyProfile = new Profile("Dummy", new File("DUMMY"),
-                "1.0.0", "Dummies", "FOR TESTING PURPOSES", "1.20.1");
-
-        dummyProfile.setPlayable(true);
-
-        this.uiManager.getLauncher().getAvailableProfiles().add(dummyProfile);
-
         //Top bar
         GridPane topBar = new GridPane();
         topBar.setId("home-profiles-top-bar");

@@ -1,6 +1,7 @@
 package be.raft.launcher.game.api.mojang.entities;
 
 import be.raft.launcher.game.api.mojang.MojangPistonMeta;
+import be.raft.launcher.utilities.SystemUtils;
 import be.raft.launcher.web.Request;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -67,12 +68,37 @@ public class VersionSchema {
             List<JsonObject> libraries = this.version.get("libraries").getAsJsonArray().asList().stream()
                     .map(JsonElement::getAsJsonObject).toList();
 
+            //Filter downloads with the rules
+            libraries = libraries.stream().filter(this::validateLibrariesRules).toList();
+
             int fileProgress = 0;
             for (JsonObject json : libraries) {
-                String fileName = json.get("downloads").getAsJsonObject().get("artifact").getAsJsonObject()
-                        .get("path").getAsString();
-                String url = json.get("downloads").getAsJsonObject().get("artifact").getAsJsonObject()
-                        .get("url").getAsString();
+
+                String fileName = "";
+                String url = "";
+                JsonObject downloadBlock = json.get("downloads").getAsJsonObject();
+
+                //Support for old Mojang manifest rules
+                if (downloadBlock.has("classifiers")) {
+                    JsonObject classifiers = downloadBlock.get("classifiers").getAsJsonObject();
+                    String nativesOs = "natives-" + SystemUtils.getOS().getMojangValue();
+
+                    if (classifiers.has(nativesOs)) {
+                        fileName = classifiers.get(nativesOs).getAsJsonObject().get("path").getAsString();
+                        url = classifiers.get(nativesOs).getAsJsonObject().get("url").getAsString();
+                    }
+
+                    String windowsNativesOsArch = "natives-" + SystemUtils.getOS().getMojangValue() + "-" + SystemUtils.getArchitecture();
+                    if (classifiers.has(windowsNativesOsArch)) {
+                        fileName = classifiers.get(windowsNativesOsArch).getAsJsonObject().get("path").getAsString();
+                        url = classifiers.get(windowsNativesOsArch).getAsJsonObject().get("url").getAsString();
+                    }
+                }
+
+                if (downloadBlock.has("artifact")) {
+                    fileName = downloadBlock.get("artifact").getAsJsonObject().get("path").getAsString();
+                    url = downloadBlock.get("artifact").getAsJsonObject().get("url").getAsString();
+                }
 
                 new Request<>(this.mojang.getClient())
                         .cache(new File(this.mojang.getCacheDirectory(), "libraries/" + fileName))
@@ -85,6 +111,39 @@ public class VersionSchema {
 
             return destRoot;
         });
+    }
+
+    private boolean validateLibrariesRules(JsonObject lib) {
+        if (!lib.has("rules")) {
+            return true;
+        }
+
+        List<JsonObject> libRules = lib.get("rules").getAsJsonArray().asList().stream().map(JsonElement::getAsJsonObject)
+                .toList();
+
+        boolean rulesRespected = true;
+
+        for (JsonObject rule : libRules) {
+            String action = rule.get("action").getAsString();
+
+            //Put every rule here
+            if (rule.has("os")) {
+                boolean ruleBool = rule.get("os").getAsJsonObject().get("name").getAsString().equals(SystemUtils.getOS().getMojangValue());
+                if (action.equals("allow")) {
+                    if (!ruleBool) {
+                        rulesRespected = false;
+                    }
+                } else {
+                    if (ruleBool) {
+                        rulesRespected = true;
+                    }
+                }
+            }
+
+
+        }
+
+        return rulesRespected;
     }
 
     public CompletableFuture<File> downloadAssets(File destRoot, Consumer<Integer> callback) {
