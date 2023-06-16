@@ -138,6 +138,10 @@ public class Profile {
         }
 
         this.playable = true;
+
+        //Call a last time to update the listeners for them to accept the new playable value
+        this.updateProgressListeners("download.assets", 100);
+
         return true;
     }
 

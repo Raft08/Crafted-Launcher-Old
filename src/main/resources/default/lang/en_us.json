@@ -11,7 +11,10 @@
   "label.failed": "Failed",
 
   "label.home.title": "Crafted\n   Launcher",
+
+  "label.home.profiles": "By %s0",
   "btn.home.profiles.create": "Create Profile",
+
   "sidebar_entry.home.profiles": "Profiles",
 
   "label.home.profiles.creation.title": "Profile Creation",

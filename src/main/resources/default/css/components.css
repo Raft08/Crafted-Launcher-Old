@@ -155,3 +155,23 @@
     -fx-background-color: rgba(0, 0, 0, 0.6);
     -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
 }
+
+.progress-bar {
+    -fx-background-color: transparent;
+}
+
+.progress-bar .bar {
+    -fx-padding: 2px;
+    -fx-background-insets: 0;
+    -fx-background-color: white;
+}
+
+.progress-bar > .track {
+    -fx-background-color: transparent;
+    -fx-text-box-border: transparent;
+    -fx-control-inner-background: transparent;
+}
+
+.progress-bar .indicator {
+    -fx-background-color: transparent;
+}

@@ -18,23 +18,38 @@
 #home-profiles-profile {
     -fx-background-color: rgba(0, 0, 0, 0.2);
     -fx-border-color: rgba(255, 255, 255, 0.5);
-    -fx-background-radius: 3px;
-    -fx-border-radius: 3px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
     -fx-pref-width: 200;
-    -fx-pref-height: 285;
-    -fx-padding: 5;
+    -fx-pref-height: 270;
+    -fx-padding: 12;
 }
 
 #home-profiles-profile-name {
-    -fx-font-size: 24px;
-    -fx-text-alignment: center;
-    -fx-translate-y: -40;
+    -fx-font-size: 29px;
+    -fx-translate-y: -17;
 }
 
-#home-profiles-profile-download {
-    -fx-font-size: 20px;
-    -fx-text-alignment: center;
-    -fx-translate-y: -20;
+#home-profiles-profile-author {
+    -fx-font-size: 14px;
+}
+
+#home-profiles-profile-progress {
+    -fx-translate-y: -57;
+    -fx-pref-width: 135;
+}
+
+#home-profiles-profile-progress-percentage {
+    -fx-translate-y: -49;
+    -fx-font-size: 14px;
+    -fx-text-alignment: right;
+}
+
+#home-profiles-profile-icon {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-background-color: transparent;
+    -fx-border-color: black;
 }
 
 #home-profiles-create-profile {
