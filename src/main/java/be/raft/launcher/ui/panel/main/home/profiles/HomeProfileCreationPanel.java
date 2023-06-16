@@ -4,6 +4,7 @@ import be.raft.launcher.CraftedLauncher;
 import be.raft.launcher.file.GameFileManager;
 import be.raft.launcher.game.api.mojang.MojangPistonMeta;
 import be.raft.launcher.game.api.mojang.entities.VersionManifest;
+import be.raft.launcher.game.profiles.Profile;
 import be.raft.launcher.game.profiles.ProfileManager;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.ui.Placing;
@@ -215,8 +216,15 @@ public class HomeProfileCreationPanel extends Panel {
             File profileDir = new File(GameFileManager.getFileInGameDirectory(ProfileManager.PROFILE_LOCATION),
                     this.toPrimitiveName(nameField.getText()));
 
-            ProfileManager.createVanillaProfile(nameField.getText(), profileDir, versionSelector.getValue(), manifest,
-                    callback -> CraftedLauncher.logger.info(Text.translated(callback.getKey()) + ": " + callback.getValue()));
+            Profile profile = new Profile(nameField.getText(), profileDir, "1.0.0",
+                    this.uiManager.getLauncher().getSelectedAccount().getUsername(), "No Description", versionSelector.getValue());
+
+            this.uiManager.getLauncher().getAvailableProfiles().add(profile);
+
+            //Install the profile async
+            CompletableFuture.runAsync(() -> profile.install(manifest));
+
+            this.uiManager.setMainPane(new HomeProfilesPanel());
         });
 
         //Basic Configuration

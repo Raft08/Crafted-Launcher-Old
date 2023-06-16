@@ -29,6 +29,9 @@ public abstract class Panel {
         CraftedLauncher.logger.debug("Showing panel '{}'", this);
     }
 
+    public void onHide() {
+    }
+
     public GridPane getLayout() {
         return layout;
     }

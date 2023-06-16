@@ -68,4 +68,26 @@ public class GameFileManager {
             return false;
         }
     }
+
+    public static File updateLocation(File file) {
+        if (file.isDirectory()) {
+            File updatedFile = new File(file.getParent(), file.getName() + "_duplicate");
+            return updateLocation(updatedFile);
+        }
+        return file;
+    }
+
+    public static void deleteDirectory(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    deleteDirectory(file);
+                } else {
+                    file.delete();
+                }
+            }
+        }
+        directory.delete();
+    }
 }

@@ -22,6 +22,19 @@
     -fx-border-radius: 3px;
     -fx-pref-width: 200;
     -fx-pref-height: 285;
+    -fx-padding: 5;
+}
+
+#home-profiles-profile-name {
+    -fx-font-size: 24px;
+    -fx-text-alignment: center;
+    -fx-translate-y: -40;
+}
+
+#home-profiles-profile-download {
+    -fx-font-size: 20px;
+    -fx-text-alignment: center;
+    -fx-translate-y: -20;
 }
 
 #home-profiles-create-profile {

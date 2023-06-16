@@ -4,6 +4,7 @@ import be.raft.launcher.file.GameFileManager;
 import be.raft.launcher.file.SettingsManager;
 import be.raft.launcher.game.account.Account;
 import be.raft.launcher.game.account.AccountManager;
+import be.raft.launcher.game.profiles.Profile;
 import be.raft.launcher.resources.Text;
 import be.raft.launcher.resources.theme.DefaultTheme;
 import be.raft.launcher.resources.theme.Theme;
@@ -14,11 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class CraftedLauncher {
     public static final long startTime = System.currentTimeMillis();
@@ -46,6 +47,7 @@ public class CraftedLauncher {
     private List<Theme> loadedThemes;
     private Account selectedAccount;
     private List<Account> availableAccounts;
+    private List<Profile> availableProfiles;
 
     public CraftedLauncher() {
         instance = this;
@@ -100,6 +102,8 @@ public class CraftedLauncher {
         this.selectAccount();
 
         CraftedLauncher.logger.info("Launcher loaded in {}ms", (System.currentTimeMillis() - CraftedLauncher.startTime));
+
+        this.availableProfiles = new ArrayList<>();
 
         Application.launch(UIManager.class);
     }
@@ -194,5 +198,9 @@ public class CraftedLauncher {
 
     public List<Account> getAvailableAccounts() {
         return availableAccounts;
+    }
+
+    public List<Profile> getAvailableProfiles() {
+        return availableProfiles;
     }
 }
