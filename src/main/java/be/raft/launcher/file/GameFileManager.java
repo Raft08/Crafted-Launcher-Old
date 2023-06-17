@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameFileManager {
     private static final String LAUNCHER_FOLDER = "crafted";
@@ -89,5 +92,24 @@ public class GameFileManager {
             }
         }
         directory.delete();
+    }
+
+    public static List<File> getAllChildFiles(File rootDirectory) {
+        List<File> childFiles = new ArrayList<>();
+        exploreDirectory(rootDirectory, childFiles);
+        return childFiles;
+    }
+
+    private static void exploreDirectory(File directory, List<File> childFiles) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    exploreDirectory(file, childFiles);
+                } else {
+                    childFiles.add(file);
+                }
+            }
+        }
     }
 }

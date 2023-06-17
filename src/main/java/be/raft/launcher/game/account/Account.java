@@ -27,6 +27,6 @@ public abstract class Account {
     public abstract String toString();
     public abstract JsonObject toJson();
 
-    record AuthInfo(String username, UUID uniqueId, String accessToken) {
+    public record AuthInfo(String username, UUID uniqueId, String accessToken) {
     }
 }

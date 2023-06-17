@@ -69,7 +69,7 @@ public class VersionSchema {
                     .map(JsonElement::getAsJsonObject).toList();
 
             //Filter downloads with the rules
-            libraries = libraries.stream().filter(this::validateLibrariesRules).toList();
+            libraries = libraries.stream().filter(this::validateLibraryRules).toList();
 
             int fileProgress = 0;
             for (JsonObject json : libraries) {
@@ -113,7 +113,7 @@ public class VersionSchema {
         });
     }
 
-    private boolean validateLibrariesRules(JsonObject lib) {
+    private boolean validateLibraryRules(JsonObject lib) {
         if (!lib.has("rules")) {
             return true;
         }

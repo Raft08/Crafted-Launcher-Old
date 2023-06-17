@@ -31,7 +31,7 @@ public class MicrosoftAccount extends Account {
                 MicrosoftAuthResult result = new MicrosoftAuthenticator().loginWithRefreshToken(this.refreshToken);
 
                 this.username = result.getProfile().getName();
-                this.uniqueId = UUID.fromString(result.getProfile().getId());
+                this.uniqueId = UUID.fromString(result.getProfile().getId().replaceAll("(.{8})(.{4})(.{4})(.{4})(.{12})", "$1-$2-$3-$4-$5"));
                 this.accessToken = result.getAccessToken();
             } catch (MicrosoftAuthenticationException e) {
                 CraftedLauncher.logger.error("Cannot authenticate '{}'", this.getUsername(), e);
